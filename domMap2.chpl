@@ -13,12 +13,11 @@ use BlockDist, CyclicDist;
 
 config const n = 8;
 const D = {1..n, 1..n};
-const newD = {2..n-1, 2..n-1};
 
 // A 2D Block-distributed domain BlockD and a Block-distributed 
 // array BA declared over the domain.
 //
-const BlockD = D dmapped Block(boundingBox=newD);
+const BlockD = D dmapped Block(boundingBox=D);
 //var BA = 0; 
 var BA: [BlockD] int;
 var InnerBA: subdomain(BlockD) = BlockD[2..n-1, 2..n-1];
