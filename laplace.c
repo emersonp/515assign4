@@ -117,7 +117,7 @@ int redblack(int n, double x[n][n], double epsilon) {
       print_array(n, x);
     }
   } while (delta > epsilon);
-  return count / 2; // Divided by two to acknowledge red vs black iterations.
+  return count / 2 + count % 2; // Divided by two to acknowledge red vs black iterations.
 }
 
 // Main routine.

@@ -9,17 +9,17 @@
 // 
 //
 
-config const epsilon = 0.001;	// convergence tolerance
-config const verbose = false; 	// printing control
-config const n = 8; 	        // mesh size (including boundary)
+config const epsilon = 0.001;  // convergence tolerance
+config const verbose = false;   // printing control
+config const n = 8;           // mesh size (including boundary)
 
 // Jacobi iteration -- return the iteration count.
 // 
 proc jacobi(D: domain(2), x: [D] real, epsilon: real) { 
-  const ID = D.expand(-1,-1); 	// domain for interior points
+  const ID = D.expand(-1,-1);   // domain for interior points
   var xnew: [D] real;           // buffer for new values
-  var delta: real; 		// measure of convergence 
-  var cnt = 0;			// iteration counter
+  var delta: real;    // measure of convergence 
+  var cnt = 0;      // iteration counter
 
   do {
     forall ij in ID do
@@ -42,7 +42,7 @@ proc jacobi(D: domain(2), x: [D] real, epsilon: real) {
 //
 proc main() {
   const D = {0..n-1, 0..n-1};   // domain including boundary points
-  var a: [D] real = 0.0;	// mesh array
+  var a: [D] real = 0.0;  // mesh array
   a[n-1, 0..n-1] = 1.0;         // - setting boundary values
   a[0..n-1, n-1] = 1.0;
   var cnt = jacobi(D, a, epsilon);
