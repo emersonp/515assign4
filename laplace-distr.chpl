@@ -9,6 +9,8 @@
 // 
 //
 
+use BlockDist;
+
 config const epsilon = 0.001;	// convergence tolerance
 config const verbose = false; 	// printing control
 config const n = 8; 	        // mesh size (including boundary)
@@ -16,10 +18,21 @@ config const n = 8; 	        // mesh size (including boundary)
 // Jacobi iteration -- return the iteration count.
 // 
 proc jacobi(D: domain(2), x: [D] real, epsilon: real) { 
-  const ID = D.expand(-1,-1); 	// domain for interior points
+  const BlockID = D.expand(-1); 	// domain for interior point
+  const BlockD = D dmapped Block(boundingBox=BlockID);
+  var ID: subdomain(BlockD) = BlockD(BlockID);
   var xnew: [D] real;           // buffer for new values
   var delta: real; 		// measure of convergence 
   var cnt = 0;			// iteration counter
+
+  if (verbose) {
+    var print_locale: [D] int;
+
+    forall e in ID do
+      print_locale[e] = here.id;
+
+    writeln(print_locale);
+  }
 
   do {
     forall ij in ID do
@@ -41,10 +54,22 @@ proc jacobi(D: domain(2), x: [D] real, epsilon: real) {
 // Gauss-Seidel Natural Index iteration -- return the iteration count.
 // 
 proc natind(D: domain(2), x: [D] real, epsilon: real) { 
-  const ID = D.expand(-1,-1); 	// domain for interior points
+  //const ID = D.expand(-1,-1); 	// domain for interior points
+  const BlockID = D.expand(-1); 	// domain for interior point
+  const BlockD = D dmapped Block(boundingBox=BlockID);
+  var ID: subdomain(BlockD) = BlockD(BlockID);
   var delta: real; 		// measure of convergence 
   var cnt = 0;			// iteration counter
   var proc_delta: [n] real;
+  
+  if (verbose) {
+    var print_locale: [D] int;
+
+    forall e in ID do
+      print_locale[e] = here.id;
+
+    writeln(print_locale);
+  }
 
   do {
     proc_delta = 0;
@@ -70,14 +95,25 @@ proc natind(D: domain(2), x: [D] real, epsilon: real) {
 //Gauss-Seidel Red Black iteration -- return the iteration count.
 // 
 proc redblack(D: domain(2), x: [D] real, epsilon: real) { 
-  const ID = D.expand(-1,-1); 	// domain for interior points
+  //const ID = D.expand(-1,-1); 	// domain for interior points
+  const BlockID = D.expand(-1); 	// domain for interior point
+  const BlockD = D dmapped Block(boundingBox=BlockID);
+  var ID: subdomain(BlockD) = BlockD(BlockID);
   var delta: real; 		// measure of convergence 
   var cnt = 0;			// iteration counter
   var proc_delta: [n] real;
 
+  if (verbose) {
+    var print_locale: [D] int;
+
+    forall e in ID do
+      print_locale[e] = here.id;
+
+    writeln(print_locale);
+  }
+
   do {
     proc_delta = 0;
-    var proc_delta: [n] real;
     forall ij in ID do {
       if (ij[1] % 2 == ij[2] % 2) {
         var old_x: real;

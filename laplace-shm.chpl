@@ -77,7 +77,6 @@ proc redblack(D: domain(2), x: [D] real, epsilon: real) {
 
   do {
     proc_delta = 0;
-    var proc_delta: [n] real;
     forall ij in ID do {
       if (ij[1] % 2 == ij[2] % 2) {
         var old_x: real;

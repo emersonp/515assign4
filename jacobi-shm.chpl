@@ -10,7 +10,7 @@
 //
 
 config const epsilon = 0.001;  // convergence tolerance
-config const verbose = false;   // printing control
+config const verbose = true;   // printing control
 config const n = 8;           // mesh size (including boundary)
 
 // Jacobi iteration -- return the iteration count.
